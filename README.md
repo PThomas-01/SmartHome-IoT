@@ -1,33 +1,56 @@
-# Smart Home IoT Monitoring and Automation System
+# 🏠 Smart Home IoT Monitoring & Automation System
 
-## Overview
+A Java-based smart home monitoring system that simulates IoT sensor readings, automates connected devices, stores sensor data in MySQL, and provides a REST-style API with a live web dashboard.
 
-A Java-based smart home monitoring and automation system that simulates sensor readings, monitors environmental conditions, and automatically controls devices based on predefined rules.
+<p align="center">
+  <img src="screenshots/dashboard.png" alt="Smart Home Dashboard" width="850">
+</p>
 
-## Features
+## 📌 Overview
 
-* Simulated temperature, humidity, and motion sensor readings
-* Automatic fan control based on temperature and humidity
-* Automatic light control based on motion detection
-* High-temperature and high-humidity alerts
-* Sensor data storage using MySQL and JDBC
-* REST-style API for retrieving the latest sensor reading and recent history
-* Web dashboard with live sensor updates
+This project demonstrates how a smart home system can monitor environmental conditions and automate devices using Java. Simulated sensor readings are processed by the application, saved to MySQL, and displayed through a web dashboard.
 
-## Technologies Used
+> **Note:** Sensor readings are currently simulated. The software is structured to support integration with real IoT hardware or an external sensor API in the future.
 
-* Java
-* MySQL
-* JDBC
-* Java HTTP Server
-* HTML, CSS, and JavaScript
-* Postman (for API testing)
+## ✨ Features
 
-## Architecture
+* 🌡️ Temperature and humidity monitoring
+* 🚶 Motion detection simulation
+* 💡 Automatic light control based on motion
+* 🌀 Automatic fan control based on temperature and humidity
+* ⚠️ High-temperature and high-humidity alerts
+* 🗄️ MySQL database storage using JDBC
+* 🔌 REST-style API returning JSON
+* 📊 Web dashboard with automatic refresh
+* 📜 Recent sensor-reading history
 
-Simulated Sensors → Java Application → Automation Logic → MySQL → REST API → Web Dashboard
+## 🛠️ Technologies Used
 
-## API Endpoints
+![Java](https://img.shields.io/badge/Java-Programming-orange)
+![MySQL](https://img.shields.io/badge/Database-MySQL-blue)
+![JDBC](https://img.shields.io/badge/Connectivity-JDBC-lightgrey)
+![HTML](https://img.shields.io/badge/Frontend-HTML5-orange)
+![CSS](https://img.shields.io/badge/Styling-CSS3-blue)
+![JavaScript](https://img.shields.io/badge/Frontend-JavaScript-yellow)
+![REST API](https://img.shields.io/badge/API-REST-green)
+
+## 🖥️ Dashboard Preview
+
+The dashboard displays the latest sensor readings and the current fan and light states.
+
+![Dashboard Screenshot](screenshots/dashboard.png)
+
+## 🔗 API Preview
+
+The API exposes sensor readings as JSON for testing with Postman or consuming from another application.
+
+**Latest Sensor Reading**
+
+`GET /api/sensors/latest`
+
+![API Response Screenshot](screenshots/api-response.png)
+
+## 📡 API Endpoints
 
 | Method | Endpoint               | Description                             |
 | ------ | ---------------------- | --------------------------------------- |
@@ -35,24 +58,70 @@ Simulated Sensors → Java Application → Automation Logic → MySQL → REST A
 | GET    | `/api/sensors/history` | Retrieves the five most recent readings |
 | GET    | `/`                    | Opens the web dashboard                 |
 
-## Running the Project
+## 🏗️ Architecture
 
-1. Install Java and MySQL.
-2. Create a MySQL database named `smart_home`.
-3. Create the `sensor_data` table required by the application.
-4. Configure the database connection in `Main.java` and `SimpleApiServer.java`.
-5. Compile the Java source files with the MySQL Connector/J library.
-6. Run `Main` to generate sensor readings and save them to MySQL.
-7. Run `SimpleApiServer` in a separate terminal.
-8. Open `http://localhost:8080/` in a browser.
+```text
+Simulated IoT Sensors
+        ↓
+   IoTDataSource
+        ↓
+     SensorData
+        ↓
+  Java Automation Logic
+        ↓
+      MySQL
+        ↓
+  Java HTTP API Server
+        ↓
+   Web Dashboard / Postman
+```
 
-## Note
+## ⚙️ Prerequisites
 
-The current implementation uses simulated sensor data. It is designed so that a real IoT device or external sensor API can be integrated later.
+* Java Development Kit (JDK)
+* MySQL Server
+* MySQL Connector/J
+* Postman (optional, for API testing)
 
-## Future Improvements
+## 🚀 How to Run
 
-* Integrate real IoT sensor data
-* Add device-control endpoints
-* Improve error handling and API validation
-* Migrate to Spring Boot and PostgreSQL
+1. Create a MySQL database named `smart_home`.
+
+2. Create the `sensor_data` table with the columns required by the application.
+
+3. Configure the database URL, username, and password in `Main.java` and `SimpleApiServer.java`.
+
+4. Ensure the MySQL Connector/J JAR is available in the `lib` folder.
+
+5. Compile the source files from the project root:
+
+   ```powershell
+   javac -cp "lib\mysql-connector-j-26.7.0.jar;src" -d bin src\*.java
+   ```
+
+6. Start the sensor simulation and database writer:
+
+   ```powershell
+   java -cp "lib\mysql-connector-j-26.7.0.jar;bin" Main
+   ```
+
+7. In a separate terminal, start the API server:
+
+   ```powershell
+   java -cp "lib\mysql-connector-j-26.7.0.jar;bin" SimpleApiServer
+   ```
+
+8. Open the dashboard in your browser:
+
+   `http://localhost:8080/`
+
+## 🔮 Future Improvements
+
+* Integration with physical IoT sensors
+* Device-control API endpoints
+* Migration to Spring Boot and PostgreSQL
+* Improved validation and automated testing
+
+---
+
+**Developed as a Java-based IoT monitoring and automation project.**
