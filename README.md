@@ -124,4 +124,31 @@ Simulated IoT Sensors
 
 ---
 
+## 📁 Project Structure
+
+```text
+SmartHome/
+├── .vscode/
+│   └── settings.json
+├── lib/
+│   └── mysql-connector-j-26.7.0.jar
+├── src/
+│   ├── Main.java
+│   ├── Device.java
+│   ├── Sensor.java
+│   ├── MotionSensor.java
+│   ├── SensorData.java
+│   ├── IoTDataSource.java
+│   ├── Dashboard.java
+│   ├── DatabaseManager.java
+│   ├── DatabaseRead.java
+│   └── SimpleApiServer.java
+├── dashboard/
+│   └── index.html
+├── screenshots/
+│   ├── dashboard.png
+│   └── api-response.png
+├── .gitignore
+└── README.md
+```
 **Developed as a Java-based IoT monitoring and automation project.**
