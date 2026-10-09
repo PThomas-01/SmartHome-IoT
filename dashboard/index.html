@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Home Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Smart Home Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <div>Temperature</div>
+            <div class="value" id="temperature">--</div>
+        </div>
+
+        <div class="card">
+            <div>Humidity</div>
+            <div class="value" id="humidity">--</div>
+        </div>
+
+        <div class="card">
+            <div>Motion</div>
+            <div class="value" id="motion">--</div>
+        </div>
+
+        <div class="card">
+            <div>Fan</div>
+            <div class="value" id="fan">--</div>
+        </div>
+
+        <div class="card">
+            <div>Light</div>
+            <div class="value" id="light">--</div>
+        </div>
+
+    </div>
+
+    <h2>Last 5 Sensor Readings</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Motion</th>
+                <th>Fan</th>
+                <th>Light</th>
+            </tr>
+        </thead>
+
+        <tbody id="history">
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+    function loadLatest() {
+
+        fetch("http://localhost:8080/api/sensors/latest")
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById("temperature").innerText =
+                    data.temperature.toFixed(2) + " °C";
+
+                document.getElementById("humidity").innerText =
+                    data.humidity.toFixed(2) + " %";
+
+                document.getElementById("motion").innerText =
+                    data.motion ? "DETECTED" : "NOT DETECTED";
+
+                document.getElementById("fan").innerText =
+                    data.fan ? "ON" : "OFF";
+
+                document.getElementById("light").innerText =
+                    data.light ? "ON" : "OFF";
+            });
+    }
+
+
+    function loadHistory() {
+
+        fetch("http://localhost:8080/api/sensors/history")
+            .then(response => response.json())
+            .then(data => {
+
+                const history =
+                    document.getElementById("history");
+
+                history.innerHTML = "";
+
+                data.forEach(reading => {
+
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${reading.temperature.toFixed(2)} °C</td>
+                        <td>${reading.humidity.toFixed(2)} %</td>
+                        <td>${reading.motion ? "DETECTED" : "NOT DETECTED"}</td>
+                        <td>${reading.fan ? "ON" : "OFF"}</td>
+                        <td>${reading.light ? "ON" : "OFF"}</td>
+                    `;
+
+                    history.appendChild(row);
+                });
+            });
+    }
+
+
+    function updateDashboard() {
+
+        loadLatest();
+        loadHistory();
+
+    }
+
+
+    updateDashboard();
+
+    setInterval(updateDashboard, 2000);
+
+</script>
+
+</body>
+</html>
